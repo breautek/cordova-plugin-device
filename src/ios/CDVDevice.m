@@ -92,7 +92,8 @@
              @"version": [device systemVersion],
              @"uuid": [self uniqueAppInstanceIdentifier:device],
              @"cordova": [[self class] cordovaVersion],
-             @"isVirtual": @([self isVirtual])
+             @"isVirtual": @([self isVirtual]),
+             @"isiOSAppOnMac": @([self isiOSAppOnMac])
              };
 }
 
@@ -110,6 +111,17 @@
     #else
         return false;
     #endif
+}
+
+
+- (BOOL) isiOSAppOnMac
+{
+    if (@available(iOS 14.0, *)) {
+        return [NSProcessInfo processInfo].isiOSAppOnMac;
+    } else {
+        // Fallback on earlier versions, and platforms
+        return false;
+    }
 }
 
 @end
